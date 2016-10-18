@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		52527CCDA31D87D8CFE668B1 /* Pods_MovieViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA846BA307B726EC7F709BD1 /* Pods_MovieViewer.framework */; };
+		BF551E091DB6CA9400A9B27D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF551E081DB6CA9400A9B27D /* DetailViewController.swift */; };
 		BFD680101DB5D9160037B865 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD6800F1DB5D9160037B865 /* AppDelegate.swift */; };
 		BFD680151DB5D9160037B865 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFD680131DB5D9160037B865 /* Main.storyboard */; };
 		BFD680171DB5D9160037B865 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFD680161DB5D9160037B865 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		11128076C8370306AE0842DB /* Pods-MovieViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		BF551E081DB6CA9400A9B27D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		BFD6800C1DB5D9160037B865 /* MovieViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD6800F1DB5D9160037B865 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFD680141DB5D9160037B865 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				BFD680211DB5D9800037B865 /* MoviesViewController.swift */,
+				BF551E081DB6CA9400A9B27D /* DetailViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				BFD680101DB5D9160037B865 /* AppDelegate.swift in Sources */,
 				BFD680221DB5D9800037B865 /* MoviesViewController.swift in Sources */,
 				BFD680251DB5DDDE0037B865 /* MovieCell.swift in Sources */,
+				BF551E091DB6CA9400A9B27D /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
