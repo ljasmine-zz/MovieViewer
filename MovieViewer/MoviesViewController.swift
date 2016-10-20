@@ -8,26 +8,29 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
     var endpoint: String!
+    var refreshControl: UIRefreshControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Initialize a UIRefreshControl
-        let refreshControl = UIRefreshControl()
-        refreshControl.backgroundColor = UIColor(red: 1.0, green: 184.0/255.0, blue: 0, alpha: 1.0)
-        refreshControl.addTarget(self, action: #selector(MoviesViewController.refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl = UIRefreshControl()
+        refreshControl!.backgroundColor = UIColor(red: 1.0, green: 184.0/255.0, blue: 0, alpha: 1.0)
+        refreshControl!.addTarget(self, action: #selector(MoviesViewController.refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         // add refresh control to table view
-        tableView.insertSubview(refreshControl, at: 0)
+        tableView.insertSubview(refreshControl!, at: 0)
         
         tableView.dataSource = self
         tableView.delegate = self
+//        networkErrorView.isHidden = false
         
         networkRequest()
     }
@@ -36,35 +39,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     // Updates the tableView with the new data
     // Hides the RefreshControl
     func refreshControlAction(refreshControl: UIRefreshControl) {
-        
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        // why do we need to unwrap endpoint here
-        let myURL = "https://api.themoviedb.org/3/movie/\(endpoint!)?api_key=\(apiKey)"
-        let url = URL(string: myURL)
-        let myRequest = NSURLRequest(
-            url: url!,
-            cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData,
-            timeoutInterval: 10)
-
-        
-        // Configure session so that completion handler is executed on main UI thread
-        let session = URLSession(
-            configuration: URLSessionConfiguration.default,
-            delegate: nil,
-            delegateQueue: OperationQueue.main
-        )
-        
-        let task : URLSessionDataTask = session.dataTask(with: myRequest as URLRequest,
-            completionHandler: { (data, response, error) in
-                                                                        
-            // ... Use the new data to update the data source ...
-            // Reload the tableView now that there is new data
-            self.tableView.reloadData()
-                                                                        
-            // Tell the refreshControl to stop spinning
-            refreshControl.endRefreshing()
-        });
-        task.resume()
+        networkRequest()
     }
     
     func networkRequest() {
@@ -84,6 +59,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         )
         
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest, completionHandler: { (dataOrNil, response, error) in
+            
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+            
             if let data = dataOrNil {
                 if let responseDictionary = try! JSONSerialization.jsonObject(
                     with: data, options:[]) as? NSDictionary {
@@ -91,8 +69,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     
                     self.movies = responseDictionary["results"] as? [NSDictionary]
                     self.tableView.reloadData()
+                    
+                    // Tell the refreshControl to stop spinning
+                    self.refreshControl!.endRefreshing()
                 }
+            } else {
+                // there is a network error
+                //self.networkErrorView.isHidden = false
             }
+        
+            MBProgressHUD.hide(for: self.view, animated: true)
         })
         
         task.resume()
