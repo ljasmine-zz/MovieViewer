@@ -14,9 +14,17 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
+    var endpoint: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.backgroundColor = UIColor(red: 1.0, green: 184.0/255.0, blue: 0, alpha: 1.0)
+        refreshControl.addTarget(self, action: #selector(MoviesViewController.refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
+        // add refresh control to table view
+        tableView.insertSubview(refreshControl, at: 0)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -24,11 +32,48 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         networkRequest()
     }
     
+    // Makes a network request to get updated data
+    // Updates the tableView with the new data
+    // Hides the RefreshControl
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        
+        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        // why do we need to unwrap endpoint here
+        let myURL = "https://api.themoviedb.org/3/movie/\(endpoint!)?api_key=\(apiKey)"
+        let url = URL(string: myURL)
+        let myRequest = NSURLRequest(
+            url: url!,
+            cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
+
+        
+        // Configure session so that completion handler is executed on main UI thread
+        let session = URLSession(
+            configuration: URLSessionConfiguration.default,
+            delegate: nil,
+            delegateQueue: OperationQueue.main
+        )
+        
+        let task : URLSessionDataTask = session.dataTask(with: myRequest as URLRequest,
+            completionHandler: { (data, response, error) in
+                                                                        
+            // ... Use the new data to update the data source ...
+            // Reload the tableView now that there is new data
+            self.tableView.reloadData()
+                                                                        
+            // Tell the refreshControl to stop spinning
+            refreshControl.endRefreshing()
+        });
+        task.resume()
+    }
+    
     func networkRequest() {
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        // why do we need to unwrap endpoint here
+        let myURL = "https://api.themoviedb.org/3/movie/\(endpoint!)?api_key=\(apiKey)"
+        let url = URL(string: myURL)
         let request = NSURLRequest(
-            url: url! as URL,
+            url: url!,
             cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData,
             timeoutInterval: 10)
         
@@ -49,6 +94,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         })
+        
         task.resume()
     }
 
@@ -74,7 +120,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
         
-        if let posterPath = movie["poster_path"] as? String {
+        if let posterPath = movie["poster_path"] as? String
+        {
             let baseURL = "https://image.tmdb.org/t/p/w500"
             let imageURL = URL(string: baseURL + posterPath)
             cell.posterImageView.setImageWith(imageURL!)
@@ -82,6 +129,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         print("row \(indexPath.row)")
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     }
     
 

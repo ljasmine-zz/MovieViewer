@@ -21,6 +21,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor(red: 1.0, green: 184.0/255.0, blue: 0, alpha: 1.0)
 
         let title = movie["title"] as? String
         titleLabel.text = title
@@ -28,11 +30,13 @@ class DetailViewController: UIViewController {
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
         overviewLabel.sizeToFit()
+        infoView.frame.size.height = titleLabel.frame.size.height + overviewLabel.frame.size.height + 40
+        
         
         scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
         
         if let posterPath = movie["poster_path"] as? String {
-            let baseURL = "https://image.tmdb.org/t/p/w500"
+            let baseURL = "https://image.tmdb.org/t/p/original"
             let imageURL = URL(string: baseURL + posterPath)
             posterImageView.setImageWith(imageURL!)
         }
