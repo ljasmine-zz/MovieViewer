@@ -42,7 +42,8 @@ class DetailViewController: UIViewController {
                 self.infoView.frame.origin.y += self.infoView.frame.height - 42
                 self.view.layoutIfNeeded()
                 self.changeCollapseButton(name: "expand")
-                self.titleLabel.alpha = 0.5
+                self.titleLabel.alpha = 0.6
+                self.collapseButton.alpha = 0.8
                 }, completion: nil)
         } else {
             UIView.animate(withDuration: 0.4, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
@@ -50,6 +51,7 @@ class DetailViewController: UIViewController {
                 self.view.layoutIfNeeded()
                 self.changeCollapseButton(name: "collapse")
                 self.titleLabel.alpha = 1
+                self.collapseButton.alpha = 1
                 }, completion: nil)
         }
         isCollapse = !isCollapse
