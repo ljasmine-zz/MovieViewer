@@ -10,13 +10,43 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
+    var movieSearchResults: [NSDictionary]?
     var endpoint: String!
     var refreshControl: UIRefreshControl?
+    var searchController: UISearchController?
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchText = searchController.searchBar.text
+        filterMovies(searchText: searchText!)
+        self.tableView.reloadData()
+    }
+
+    
+    func filterMovies(searchText: String)
+    {
+        // Filter the array using the filter method
+        if self.movies == nil {
+            self.movieSearchResults = nil
+            return
+        }
+        
+        if (searchText.isEmpty) {
+            self.movieSearchResults = self.movies
+        } else {
+            self.movieSearchResults = self.movies!.filter({( movie: NSDictionary) -> Bool in
+                // to start, let's just search by name
+                return (movie["title"] as! String).lowercased().range(of: searchText.lowercased()) != nil
+            })
+        }
+        
+        print(self.movieSearchResults?.count)
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +57,23 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         refreshControl!.addTarget(self, action: #selector(MoviesViewController.refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         // add refresh control to table view
         tableView.insertSubview(refreshControl!, at: 0)
-        
         tableView.dataSource = self
         tableView.delegate = self
+        
 //        networkErrorView.isHidden = false
+        
+        
+        // replace navigation bar with search bar and search controller
+        self.searchController = UISearchController(searchResultsController:  nil)
+        self.searchController?.searchResultsUpdater = self
+        self.searchController?.delegate = self
+        self.searchController?.searchBar.delegate = self
+        
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.searchController?.dimsBackgroundDuringPresentation = true
+        self.navigationItem.titleView = searchController?.searchBar
+        
+        self.definesPresentationContext = true
         
         networkRequest()
     }
@@ -90,17 +133,29 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let movies = movies {
+        
+        if let movies = self.movieSearchResults {
+            if movies.count > 0 {
+                return movies.count
+            }
+        } else if let movies = self.movies {
             return movies.count
-        } else {
-            return 0
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
-        let movie = movies![indexPath.row]
+        var displayedMovies : [NSDictionary] = []
+        if (self.movieSearchResults != nil && self.movieSearchResults!.count > 0) {
+            print("hi")
+            displayedMovies = self.movieSearchResults!
+        } else if self.movies != nil {
+            displayedMovies = self.movies!
+        }
+        
+        let movie = displayedMovies[indexPath.row]
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
         cell.titleLabel.text = title
