@@ -14,7 +14,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
-//    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var collapseButton: UIButton!
     
@@ -39,19 +38,19 @@ class DetailViewController: UIViewController {
     @IBAction func didPressButton(_ sender: AnyObject) {
         if isCollapse {
             UIView.animate(withDuration: 0.4, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                self.infoView.frame.origin.y += self.infoView.frame.height - 42
+                self.infoView.frame.origin.y += self.infoView.frame.height - 35
                 self.view.layoutIfNeeded()
                 self.changeCollapseButton(name: "expand")
-                self.titleLabel.alpha = 0.6
-                self.collapseButton.alpha = 0.8
+                self.infoView.alpha = 0.6
+                self.titleLabel.alpha = 0
                 }, completion: nil)
         } else {
             UIView.animate(withDuration: 0.4, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                self.infoView.frame.origin.y -= self.infoView.frame.height - 42
+                self.infoView.frame.origin.y -= self.infoView.frame.height - 35
                 self.view.layoutIfNeeded()
                 self.changeCollapseButton(name: "collapse")
+                self.infoView.alpha = 0.8
                 self.titleLabel.alpha = 1
-                self.collapseButton.alpha = 1
                 }, completion: nil)
         }
         isCollapse = !isCollapse
@@ -75,15 +74,13 @@ class DetailViewController: UIViewController {
 
         let title = movie["title"] as? String
         titleLabel.text = title
+        titleLabel.sizeToFit()
         
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
         overviewLabel.sizeToFit()
-        infoView.frame.size.height = titleLabel.frame.size.height + overviewLabel.frame.size.height + 40
-        
-        print(infoView.frame.origin.y + infoView.frame.origin.y)
-        
-//        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
+        overviewLabel.frame.origin.y = titleLabel.frame.origin.y + titleLabel.frame.size.height + 5
+        infoView.frame.size.height = titleLabel.frame.size.height + overviewLabel.frame.size.height + 35
         
         if let posterPath = movie["poster_path"] as? String {
             let baseURL = "https://image.tmdb.org/t/p/original"
