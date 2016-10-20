@@ -29,7 +29,7 @@ class DetailViewController: UIViewController {
     }
     
     func changeCollapseButton (name: String) {
-        let origImage = UIImage(named: name);
+        let origImage = UIImage(named: name)
         let tintedImage = origImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         collapseButton.setImage(tintedImage, for: .normal)
         collapseButton.tintColor = UIColor.white

@@ -60,8 +60,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
-//        networkErrorView.isHidden = false
-        
         
         // replace navigation bar with search bar and search controller
         self.searchController = UISearchController(searchResultsController:  nil)
@@ -70,12 +68,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.searchController?.searchBar.delegate = self
         
         self.searchController?.hidesNavigationBarDuringPresentation = false
-        self.searchController?.dimsBackgroundDuringPresentation = true
+        self.searchController?.dimsBackgroundDuringPresentation = false
         self.navigationItem.titleView = searchController?.searchBar
         
-        self.definesPresentationContext = true
-        
+        let gridViewButton = UIBarButtonItem(image: UIImage(named: "grid_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(revealBackClicked))
+        self.navigationItem.leftBarButtonItem = gridViewButton
         networkRequest()
+    }
+    
+    func revealBackClicked () {
     }
     
     // Makes a network request to get updated data
@@ -149,7 +150,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         var displayedMovies : [NSDictionary] = []
         if (self.movieSearchResults != nil && self.movieSearchResults!.count > 0) {
-            print("hi")
             displayedMovies = self.movieSearchResults!
         } else if self.movies != nil {
             displayedMovies = self.movies!
@@ -168,7 +168,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             cell.posterImageView.setImageWith(imageURL!)
         }
         
-        print("row \(indexPath.row)")
         return cell
     }
     
