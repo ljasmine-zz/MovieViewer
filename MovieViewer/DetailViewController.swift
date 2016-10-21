@@ -19,16 +19,11 @@ class DetailViewController: UIViewController {
     var movie: NSDictionary!
     var isCollapse = true
 
+
+    // MARK: Public
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         changeCollapseButton(name: "collapse")
-    }
-    
-    func changeCollapseButton (name: String) {
-        let origImage = UIImage(named: name)
-        let tintedImage = origImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
-        collapseButton.setImage(tintedImage, for: .normal)
-        collapseButton.tintColor = UIColor.white
     }
     
     @IBAction func didPressButton(_ sender: AnyObject) {
@@ -105,6 +100,15 @@ class DetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+
+    // MARK: Private
+    private dynamic func changeCollapseButton (name: String) {
+        let origImage = UIImage(named: name)
+        let tintedImage = origImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        collapseButton.setImage(tintedImage, for: .normal)
+        collapseButton.tintColor = UIColor.white
     }
     
 
