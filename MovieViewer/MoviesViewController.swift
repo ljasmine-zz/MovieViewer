@@ -10,45 +10,98 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
     // MARK: Public
+    @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
     var movieSearchResults: [NSDictionary]?
     var endpoint: String!
     var refreshControl: UIRefreshControl?
+    var refreshControl2: UIRefreshControl?
     var searchController: UISearchController?
+    var selectedSegment: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // set data source and delegate
+        tableView.dataSource = self
+        tableView.delegate = self
+        gridView.dataSource = self
+        gridView.delegate = self
 
         // Initialize a UIRefreshControl
         refreshControl = UIRefreshControl()
         refreshControl!.backgroundColor = UIColor(red: 1.0, green: 184.0/255.0, blue: 0, alpha: 1.0)
         refreshControl!.addTarget(self, action: #selector(MoviesViewController.refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
-        // add refresh control to table view
         tableView.insertSubview(refreshControl!, at: 0)
-        tableView.dataSource = self
-        tableView.delegate = self
+
+        networkRequest()
 
         // replace navigation bar with search bar and search controller
         setUpSearchController()
 
-        let gridViewButton = UIBarButtonItem(image: UIImage(named: "grid_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(revealBackClicked))
-        self.navigationItem.leftBarButtonItem = gridViewButton
-        networkRequest()
+        // decide which type of view to show, list or grid
+        if selectedSegment == 0 {
+            self.tableView.isHidden = false
+            self.gridView.isHidden = true
+
+            let gridViewButton = UIBarButtonItem(image: UIImage(named: "grid_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(switchViews))
+            self.navigationItem.leftBarButtonItem = gridViewButton
+        } else {
+            self.tableView.isHidden = true
+            self.gridView.isHidden = false
+
+            let listViewButton = UIBarButtonItem(image: UIImage(named: "list_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(switchViews))
+            self.navigationItem.leftBarButtonItem = listViewButton
+        }
+
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if (searchController!.isActive) && !(searchController!.searchBar.text?.isEmpty)! {
+            return movieSearchResults!.count
+        } else if let movies = self.movies {
+            return movies.count
+        }
+        return 0
     }
 
-    func updateSearchResults(for searchController: UISearchController) {
-        let searchText = searchController.searchBar.text
-        filterMovies(searchText: searchText!)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = self.gridView.dequeueReusableCell(withReuseIdentifier: "PosterViewCell", for: indexPath) as! PosterViewCell
+
+        let displayedMovies : [NSDictionary]
+        if ((searchController?.isActive)! && !(searchController?.searchBar.text?.isEmpty)!) {
+            displayedMovies = self.movieSearchResults!
+        } else if self.movies != nil {
+            displayedMovies = self.movies!
+        } else {
+            displayedMovies = []
+        }
+
+        let movie = displayedMovies[indexPath.row]
+
+        if let posterPath = movie["poster_path"] as? String
+        {
+            let baseURL = "https://image.tmdb.org/t/p/w500"
+            let imageURL = URL(string: baseURL + posterPath)
+            cell.posterImageView.setImageWith(imageURL!)
+        }
+
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = self.gridView.cellForItem(at: indexPath) as! PosterViewCell
+        cell.posterImageView.alpha = 0.8
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = self.gridView.cellForItem(at: indexPath) as! PosterViewCell
+        cell.posterImageView.alpha = 1.0
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,6 +145,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchText = searchController.searchBar.text
+        filterMovies(searchText: searchText!)
+    }
     
 
     // MARK: Private
@@ -107,8 +170,27 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.navigationItem.titleView = searchController?.searchBar
     }
 
-    private dynamic func revealBackClicked() {
-        // TODO
+    private dynamic func switchViews() {
+        if selectedSegment == 0 {
+
+            self.tableView.isHidden = true
+            self.gridView.isHidden = false
+
+            let listViewButton = UIBarButtonItem(image: UIImage(named: "list_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(switchViews))
+            self.navigationItem.leftBarButtonItem = listViewButton
+
+            selectedSegment = 1
+
+        } else {
+
+            self.tableView.isHidden = false
+            self.gridView.isHidden = true
+
+            let gridViewButton = UIBarButtonItem(image: UIImage(named: "grid_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(switchViews))
+            self.navigationItem.leftBarButtonItem = gridViewButton
+
+            selectedSegment = 0
+        }
     }
 
     private dynamic func filterMovies(searchText: String)
@@ -131,6 +213,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         print(self.movieSearchResults?.count)
 
         self.tableView.reloadData()
+        self.gridView.reloadData()
     }
 
     // Makes a network request to get updated data
@@ -166,7 +249,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     print("response: \(responseDictionary)")
 
                     self.movies = responseDictionary["results"] as? [NSDictionary]
+
                     self.tableView.reloadData()
+                    self.gridView.reloadData()
 
                     // Tell the refreshControl to stop spinning
                     self.refreshControl!.endRefreshing()
@@ -189,9 +274,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPath(for: cell)!
         let movie : NSDictionary
+        var indexPath : IndexPath
+
+        if selectedSegment == 0 {
+            let cell = sender as! UITableViewCell
+            indexPath = self.tableView.indexPath(for: cell)!
+        } else {
+            let cell = sender as! UICollectionViewCell
+            indexPath = self.gridView.indexPath(for: cell)!
+        }
 
         if ((searchController?.isActive)! && !(searchController?.searchBar.text?.isEmpty)!) {
             movie = movieSearchResults![indexPath.row]
