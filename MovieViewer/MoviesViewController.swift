@@ -23,10 +23,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text
         filterMovies(searchText: searchText!)
-        self.tableView.reloadData()
     }
 
-    
     func filterMovies(searchText: String)
     {
         // Filter the array using the filter method
@@ -45,6 +43,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         print(self.movieSearchResults?.count)
+        
+        self.tableView.reloadData()
     }
 
     
@@ -62,13 +62,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         
         // replace navigation bar with search bar and search controller
-        self.searchController = UISearchController(searchResultsController:  nil)
+        self.searchController = UISearchController(searchResultsController: nil)
         self.searchController?.searchResultsUpdater = self
         self.searchController?.delegate = self
         self.searchController?.searchBar.delegate = self
         
         self.searchController?.hidesNavigationBarDuringPresentation = false
         self.searchController?.dimsBackgroundDuringPresentation = false
+        self.definesPresentationContext = true
         self.navigationItem.titleView = searchController?.searchBar
         
         let gridViewButton = UIBarButtonItem(image: UIImage(named: "grid_view"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(revealBackClicked))
@@ -135,10 +136,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let movies = self.movieSearchResults {
-            if movies.count > 0 {
-                return movies.count
-            }
+        if (searchController!.isActive) && !(searchController!.searchBar.text?.isEmpty)! {
+            return movieSearchResults!.count
         } else if let movies = self.movies {
             return movies.count
         }
@@ -146,13 +145,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
-        var displayedMovies : [NSDictionary] = []
-        if (self.movieSearchResults != nil && self.movieSearchResults!.count > 0) {
+        let displayedMovies : [NSDictionary]
+        if ((searchController?.isActive)! && !(searchController?.searchBar.text?.isEmpty)!) {
             displayedMovies = self.movieSearchResults!
         } else if self.movies != nil {
             displayedMovies = self.movies!
+        } else {
+            displayedMovies = []
         }
         
         let movie = displayedMovies[indexPath.row]
@@ -184,8 +185,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Pass the selected object to the new view controller.
         
         let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPath(for: cell)
-        let movie = movies![indexPath!.row]
+        let indexPath = tableView.indexPath(for: cell)!
+        let movie : NSDictionary
+            
+        if ((searchController?.isActive)! && !(searchController?.searchBar.text?.isEmpty)!) {
+            movie = movieSearchResults![indexPath.row]
+        } else if self.movies != nil {
+            movie = movies![indexPath.row]
+        } else {
+            movie = NSDictionary()
+        }
         
         let detailViewController = segue.destination as! DetailViewController
         detailViewController.movie = movie

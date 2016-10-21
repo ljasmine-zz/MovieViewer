@@ -9,8 +9,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    
-    
+
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
@@ -19,12 +18,9 @@ class DetailViewController: UIViewController {
     
     var movie: NSDictionary!
     var isCollapse = true
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        infoView.alpha = 0
-        infoView.frame.origin.y -= 50
         changeCollapseButton(name: "collapse")
     }
     
@@ -62,11 +58,12 @@ class DetailViewController: UIViewController {
         UIView.animate(withDuration: 0.4, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.infoView.frame.origin.y -= self.infoView.frame.height
             self.view.layoutIfNeeded()
+            self.changeCollapseButton(name: "collapse")
             self.infoView.alpha = 0.75
+            self.titleLabel.alpha = 1
             }, completion: nil)
-
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -91,6 +88,19 @@ class DetailViewController: UIViewController {
         print(movie)
         // Do any additional setup after loading the view.
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        self.infoView.alpha = 0
+        if isCollapse {
+            self.infoView.frame.origin.y += self.infoView.frame.height
+            self.view.layoutIfNeeded()
+        } else {
+            self.infoView.frame.origin.y += 35
+            self.view.layoutIfNeeded()
+        }
+        self.isCollapse = true
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
