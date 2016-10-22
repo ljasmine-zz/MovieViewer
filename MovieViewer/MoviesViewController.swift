@@ -88,6 +88,31 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         {
             let baseURL = "https://image.tmdb.org/t/p/w500"
             let imageURL = URL(string: baseURL + posterPath)
+            let imageRequest = NSURLRequest(url: imageURL!)
+
+            cell.posterImageView.setImageWith(
+                imageRequest as URLRequest,
+                placeholderImage: nil,
+                success: { (imageRequest, imageResponse, image) -> Void in
+
+                    // imageResponse will be nil if the image is cached
+                    if imageResponse != nil {
+                        print("Image was NOT cached, fade in image")
+                        cell.posterImageView.alpha = 0.0
+                        cell.posterImageView.image = image
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                            cell.posterImageView.alpha = 1.0
+                        })
+                    } else {
+                        print("Image was cached so just update the image")
+                        cell.posterImageView.image = image
+                    }
+                },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+            })
+        } else {
+            let imageURL = URL(string: "https://cdn2.iconfinder.com/data/icons/picons-basic-1/57/basic1-044_file_document_error-512.png")
             cell.posterImageView.setImageWith(imageURL!)
         }
 
@@ -136,6 +161,31 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         {
             let baseURL = "https://image.tmdb.org/t/p/w500"
             let imageURL = URL(string: baseURL + posterPath)
+            let imageRequest = NSURLRequest(url: imageURL!)
+
+            cell.posterImageView.setImageWith(
+                imageRequest as URLRequest,
+                placeholderImage: nil,
+                success: { (imageRequest, imageResponse, image) -> Void in
+
+                    // imageResponse will be nil if the image is cached
+                    if imageResponse != nil {
+                        print("Image was NOT cached, fade in image")
+                        cell.posterImageView.alpha = 0.0
+                        cell.posterImageView.image = image
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                            cell.posterImageView.alpha = 1.0
+                        })
+                    } else {
+                        print("Image was cached so just update the image")
+                        cell.posterImageView.image = image
+                    }
+                },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+            })
+        } else {
+            let imageURL = URL(string: "https://cdn2.iconfinder.com/data/icons/picons-basic-1/57/basic1-044_file_document_error-512.png")
             cell.posterImageView.setImageWith(imageURL!)
         }
         
