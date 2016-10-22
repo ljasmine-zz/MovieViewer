@@ -167,11 +167,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -183,11 +183,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -199,11 +199,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -359,11 +359,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "switchViews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -375,11 +375,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
             landmarkName = "MoviesViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -391,11 +391,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "collectionView(_:didHighlightItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -407,11 +407,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "collectionView(_:didHighlightItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -423,11 +423,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "MoviesViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -439,11 +439,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "MoviesViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -455,11 +455,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498786588.446757"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -472,11 +472,11 @@
             condition = "title == &quot;The Hotel Dieu&quot;"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
             <Actions>
@@ -497,11 +497,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -513,11 +513,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -530,11 +530,11 @@
             condition = "title == &quot;The Hotel Dieu&quot;"
             continueAfterRunningActions = "No"
             filePath = "MovieViewer/MoviesViewController.swift"
-            timestampString = "498789762.423534"
+            timestampString = "498804904.937431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>

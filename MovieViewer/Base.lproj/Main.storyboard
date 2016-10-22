@@ -14,6 +14,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" id="Pvc-uY-atJ">
+                                <frame key="frameInset" width="375" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Network Request Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pkU-HT-fEA">
+                                        <frame key="frameInset" minX="96" minY="6" width="168" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="ru7-c1-qDZ">
                                 <frame key="frameInset" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -47,7 +61,7 @@
                                 </cells>
                             </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="116" sectionHeaderHeight="28" sectionFooterHeight="28" id="Zrs-pI-leb">
-                                <frame key="frameInset" minY="67" width="375" height="549"/>
+                                <frame key="frameInset" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.72156862749999995" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -97,6 +111,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="lHH-am-CqV"/>
                     <connections>
+                        <outlet property="errorMessageView" destination="Pvc-uY-atJ" id="LD4-NC-Q7Q"/>
                         <outlet property="gridView" destination="ru7-c1-qDZ" id="7tb-Ql-JiF"/>
                         <outlet property="tableView" destination="Zrs-pI-leb" id="9CL-MY-HdE"/>
                     </connections>

@@ -15,6 +15,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: Public
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var errorMessageView: UIView!
     
     var movies: [NSDictionary]?
     var movieSearchResults: [NSDictionary]?
@@ -61,6 +62,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        tableView.contentInset.top = topLayoutGuide.length
+        tableView.contentInset.bottom = bottomLayoutGuide.length
+
+        gridView.contentInset.top = topLayoutGuide.length
+        gridView.contentInset.bottom = bottomLayoutGuide.length
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (searchController!.isActive) && !(searchController!.searchBar.text?.isEmpty)! {
             return movieSearchResults!.count
@@ -97,14 +108,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
                     // imageResponse will be nil if the image is cached
                     if imageResponse != nil {
-                        print("Image was NOT cached, fade in image")
                         cell.posterImageView.alpha = 0.0
                         cell.posterImageView.image = image
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
                             cell.posterImageView.alpha = 1.0
                         })
                     } else {
-                        print("Image was cached so just update the image")
                         cell.posterImageView.image = image
                     }
                 },
@@ -170,14 +179,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
                     // imageResponse will be nil if the image is cached
                     if imageResponse != nil {
-                        print("Image was NOT cached, fade in image")
                         cell.posterImageView.alpha = 0.0
                         cell.posterImageView.image = image
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
                             cell.posterImageView.alpha = 1.0
                         })
                     } else {
-                        print("Image was cached so just update the image")
                         cell.posterImageView.image = image
                     }
                 },
@@ -187,6 +194,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             let imageURL = URL(string: "https://cdn2.iconfinder.com/data/icons/picons-basic-1/57/basic1-044_file_document_error-512.png")
             cell.posterImageView.setImageWith(imageURL!)
+        }
+
+        if (indexPath.row == movies?.endIndex) {
+            networkRequest()
         }
         
         return cell
@@ -296,7 +307,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             if let data = dataOrNil {
                 if let responseDictionary = try! JSONSerialization.jsonObject(
                     with: data, options:[]) as? NSDictionary {
+
                     print("response: \(responseDictionary)")
+
+                    self.errorMessageView.isHidden = true
 
                     self.movies = responseDictionary["results"] as? [NSDictionary]
 
@@ -308,7 +322,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             } else {
                 // there is a network error
-                //self.networkErrorView.isHidden = false
+                self.errorMessageView.isHidden = false
             }
 
             MBProgressHUD.hide(for: self.view, animated: true)
